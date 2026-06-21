@@ -13,10 +13,9 @@ import (
 // local builds. Defaults make `zot --version` print something sensible
 // when built without ldflags.
 var (
-	// 0.0.0 is the pre-release placeholder for local / untagged
-	// builds. The first published GitHub release will be tagged
-	// v0.0.1; everything before that ships as 0.0.0 from source.
-	version = "0.0.0"
+	// fork identifies local builds from the long-lived mi-skam fork branch.
+	// Release builds still override this via goreleaser ldflags.
+	version = "fork"
 	commit  = ""
 	date    = ""
 )

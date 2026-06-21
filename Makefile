@@ -1,6 +1,6 @@
-# Local / untagged builds ship as 0.0.0. Release builds are driven by
-# goreleaser which overrides VERSION from the git tag.
-VERSION ?= 0.0.0
+# Local / untagged builds on the fork branch identify themselves as fork.
+# Release builds are driven by goreleaser which overrides VERSION from the git tag.
+VERSION ?= fork
 LDFLAGS := -s -w -X main.version=$(VERSION)
 
 .PHONY: build install test lint fmt clean release run
