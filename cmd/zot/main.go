@@ -13,9 +13,10 @@ import (
 // local builds. Defaults make `zot --version` print something sensible
 // when built without ldflags.
 var (
-	// fork identifies local builds from the long-lived mi-skam fork branch.
-	// Release builds still override this via goreleaser ldflags.
-	version = "fork"
+	// 0.0.0-fork identifies direct local builds from the long-lived
+	// mi-skam fork branch. Makefile builds derive the upstream tag and
+	// append -fork, while release builds override this via goreleaser ldflags.
+	version = "0.0.0-fork"
 	commit  = ""
 	date    = ""
 )

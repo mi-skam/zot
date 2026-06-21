@@ -16,7 +16,7 @@ Keep the upstream module/package imports intact (`github.com/patriceckhart/zot/.
 
 Current intended local branding includes:
 
-- local build version defaults to `fork`
+- local build version keeps the upstream tag visible and appends `-fork` (for example `0.2.41-fork`)
 - welcome/help text identifies the build as `zot-fork`
 
 Do not casually expand the local branding patch. Keep `fork` and upstream `main` as close as possible.

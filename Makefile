@@ -1,7 +1,10 @@
-# Local / untagged builds on the fork branch identify themselves as fork.
+# Local fork builds keep the upstream tag visible and append -fork.
 # Release builds are driven by goreleaser which overrides VERSION from the git tag.
-VERSION ?= fork
-LDFLAGS := -s -w -X main.version=$(VERSION)
+UPSTREAM_VERSION ?= $(shell git describe --tags --abbrev=0 --match 'v*' 2>/dev/null | sed 's/^v//')
+VERSION ?= $(if $(UPSTREAM_VERSION),$(UPSTREAM_VERSION)-fork,0.0.0-fork)
+COMMIT ?= $(shell git rev-parse --short HEAD 2>/dev/null)
+DATE ?= $(shell git log -1 --format=%cI 2>/dev/null)
+LDFLAGS := -s -w -X main.version=$(VERSION) -X main.commit=$(COMMIT) -X main.date=$(DATE)
 
 .PHONY: build install test lint fmt clean release run
 
