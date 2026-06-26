@@ -58,6 +58,16 @@ make build        # produces ./bin/zot
 make install      # into $GOPATH/bin
 ```
 
+If you maintain a fork and do not want zot to check upstream releases or show update/changelog prompts, build it as a dev version:
+
+```bash
+make build VERSION=dev
+# or
+make install VERSION=dev
+```
+
+This makes `zot --version` print `zot dev`, disables `zot update`, and skips the in-TUI update banner and release-notes overlay.
+
 ### Prebuilt binaries
 
 Every release on the [releases page](https://github.com/patriceckhart/zot/releases) ships archives for Linux, macOS, and Windows on amd64 and arm64 (except windows/arm64), plus a `checksums.txt` file. Download, verify, `chmod +x`, and drop on your `$PATH`.
