@@ -405,6 +405,7 @@ type Interactive struct {
 	pendingFork bool
 	suggest     *slashSuggester
 	fileSuggest *fileSuggester
+	completion  *completionManager
 	spin        *spinner
 
 	// parkedTurn is the 1-based turn number the viewport is currently
