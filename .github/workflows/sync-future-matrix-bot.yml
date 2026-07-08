@@ -1,0 +1,56 @@
+name: sync future/matrix-bot with upstream main
+
+on:
+  # Runs when this repository's main branch advances. In the fork this is useful
+  # if main is kept mirrored from patriceckhart/main.
+  push:
+    branches: [main]
+
+  # Poll upstream too, because GitHub cannot directly trigger a workflow in this
+  # fork from pushes to patriceckhart/zot. This keeps the future branch current
+  # even when mi-skam/main has not been pushed separately.
+  schedule:
+    - cron: '*/30 * * * *'
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-future-matrix-bot
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: merge patriceckhart/main into future/matrix-bot
+    if: github.repository == 'mi-skam/zot'
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout future/matrix-bot
+        uses: actions/checkout@v4
+        with:
+          ref: future/matrix-bot
+          fetch-depth: 0
+
+      - name: merge upstream main
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git remote add upstream https://github.com/patriceckhart/zot.git
+          git fetch --no-tags upstream main
+          git fetch --no-tags origin future/matrix-bot
+
+          git checkout -B future/matrix-bot origin/future/matrix-bot
+
+          if git merge-base --is-ancestor upstream/main HEAD; then
+            echo "future/matrix-bot already contains patriceckhart/main."
+            exit 0
+          fi
+
+          git merge --no-edit upstream/main
+          git push origin HEAD:future/matrix-bot
